@@ -33,7 +33,13 @@
     bun-overlay,
     harbor-meta,
     ...
-  }:
+  }: let
+    harborRoot =
+      inputs.harborRoot or (harbor-meta.lib.standaloneRoot {
+        core = harbor-meta;
+        javascript = self;
+      });
+  in
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = [
         "x86_64-linux"
@@ -103,7 +109,7 @@
         checks = import ./checks {
           inherit pkgs system self;
           inherit (self) lib;
-          inherit bun_1_3_14 nixpkgs nixpkgs-darwin;
+          inherit bun_1_3_14 nixpkgs nixpkgs-darwin harborRoot;
           inherit (inputs) treefmt-nix git-hooks;
           meta = harbor-meta.lib;
         };
