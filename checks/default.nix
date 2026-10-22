@@ -5,6 +5,7 @@
   bun_1_3_14,
   self,
   nixpkgs,
+  nixpkgs-darwin,
   treefmt-nix,
   git-hooks,
   meta,
@@ -12,7 +13,7 @@
   templateRoot = ../templates/default;
   templateFlake = builtins.readFile (templateRoot + "/flake.nix");
   templateSimit = builtins.fromTOML (builtins.readFile (templateRoot + "/simit.toml"));
-  templateTreefmt = (treefmt-nix.lib.evalModule pkgs (import (templateRoot + "/nix/treefmt.nix") {harbor-js = self;})).config;
+  templateTreefmt = (treefmt-nix.lib.evalModule pkgs (import (templateRoot + "/nix/treefmt.nix") {harbor = self.inputs.harborRoot;})).config;
   languageTreefmt = (treefmt-nix.lib.evalModule pkgs {imports = [self.treefmtModules.javascript];}).config;
   templateHooks = builtins.readFile (templateRoot + "/nix/pre-commit.nix");
 in
@@ -28,7 +29,7 @@ in
   assert pkgs.lib.hasInfix "pre-commit-check.shellHook" templateFlake;
   assert builtins.elem "*.ts" templateTreefmt.programs.prettier.includes;
   assert builtins.elem "*.json" templateTreefmt.programs.prettier.includes;
-  assert builtins.elem ".crow/**" templateTreefmt.settings.global.excludes;
+  assert builtins.elem ".crow/**" templateTreefmt.settings.excludes;
   assert builtins.attrNames languageTreefmt.settings.formatter == ["prettier"];
   assert pkgs.lib.hasInfix "treefmt =" templateHooks;
   assert pkgs.lib.hasInfix "nix-flake-check" templateHooks;
@@ -56,8 +57,8 @@ in
         inherit pkgs system;
         flakeNix = ../templates/default/flake.nix;
         inputs = {
-          inherit nixpkgs treefmt-nix git-hooks;
-          harbor-js = self;
+          inherit nixpkgs nixpkgs-darwin treefmt-nix git-hooks;
+          harbor = self.inputs.harborRoot;
         };
         requiredFiles = [
           "flake.nix"
@@ -67,7 +68,7 @@ in
           "nix/treefmt.nix"
           "nix/pre-commit.nix"
         ];
-        requiredInputs = ["harbor-js" "treefmt-nix" "git-hooks"];
+        requiredInputs = ["harbor" "nixpkgs-darwin" "treefmt-nix" "git-hooks"];
         commands = ["bun"];
         env.BUN_VERSION = "1.3.14";
         inherit (meta) devShellTests;
