@@ -108,6 +108,24 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "git-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -151,6 +169,28 @@
         "ref": "trunk",
         "type": "git",
         "url": "https://github.com/caniko/harbor-meta.git"
+      }
+    },
+    "nix-opencode-lsp": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788975598,
+        "narHash": "sha256-e2uYv4RDL+/XSCE1Qi04iFJUY/LrKvYpOWSR+zz3SSU=",
+        "ref": "trunk",
+        "rev": "b158ee4c3cc9c0d6ca7ab2216906b51990699c8a",
+        "revCount": 9,
+        "type": "git",
+        "url": "https://github.com/caniko/nix-opencode-lsp.git"
+      },
+      "original": {
+        "ref": "trunk",
+        "type": "git",
+        "url": "https://github.com/caniko/nix-opencode-lsp.git"
       }
     },
     "nixpkgs": {
@@ -221,6 +261,7 @@
         "flake-parts": "flake-parts",
         "git-hooks": "git-hooks",
         "harbor-meta": "harbor-meta",
+        "nix-opencode-lsp": "nix-opencode-lsp",
         "nixpkgs": "nixpkgs",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "treefmt-nix": "treefmt-nix_2"
@@ -248,6 +289,21 @@
       }
     },
     "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
