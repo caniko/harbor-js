@@ -87,11 +87,7 @@
           version = "1.3.14";
           baseline = true;
         };
-        treefmt = inputs.treefmt-nix.lib.evalModule pkgs {
-          imports = [harbor-meta.treefmtModules.nix harbor-meta.treefmtModules.toml self.treefmtModules.javascript];
-          projectRootFile = "flake.nix";
-          settings.excludes = [".crow/**"];
-        };
+        treefmt = inputs.treefmt-nix.lib.evalModule pkgs (import ./nix/treefmt.nix {inherit harbor-meta;});
       in {
         # The maintained compatibility branch retains Intel macOS and patched pnpm.
         _module.args.pkgs =
@@ -113,13 +109,15 @@
             inherit bun_1_3_14_baseline;
           };
 
-        checks = import ./checks {
-          inherit pkgs system self;
-          inherit (self) lib;
-          inherit bun_1_3_14 nixpkgs nixpkgs-darwin harborRoot;
-          inherit (inputs) treefmt-nix git-hooks;
-          meta = harbor-meta.lib;
-        };
+        checks =
+          import ./checks {
+            inherit pkgs system self;
+            inherit (self) lib;
+            inherit bun_1_3_14 nixpkgs nixpkgs-darwin harborRoot;
+            inherit (inputs) treefmt-nix git-hooks;
+            meta = harbor-meta.lib;
+          }
+          // {formatting = treefmt.config.build.check self;};
 
         formatter = treefmt.config.build.wrapper;
       };

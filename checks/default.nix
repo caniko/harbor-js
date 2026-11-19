@@ -15,7 +15,7 @@
   templateFlake = builtins.readFile (templateRoot + "/flake.nix");
   templateSimit = builtins.fromTOML (builtins.readFile (templateRoot + "/simit.toml"));
   templateTreefmt = (treefmt-nix.lib.evalModule pkgs (import (templateRoot + "/nix/treefmt.nix") {harbor = harborRoot;})).config;
-  languageTreefmt = (treefmt-nix.lib.evalModule pkgs {imports = [self.treefmtModules.javascript];}).config;
+  languageTreefmt = (treefmt-nix.lib.evalModule pkgs self.treefmtModules.javascript).config;
   templateHooks = builtins.readFile (templateRoot + "/nix/pre-commit.nix");
 in
   assert templateSimit.flake
